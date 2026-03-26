@@ -19,9 +19,9 @@ COLOR_MAPPING = {
 @on('page.generate.return')
 @enable_by_config('news.replacecolor')
 def script(*args, **kwargs):
-    result:str = kwargs['result']
+    result: str = kwargs['result']
     for num, color in COLOR_MAPPING.items():
         if not color:
             continue
-        result = result.replace(f"{{DynamicResource ColorBrush{num}}}",color)
+        result = result.replace(f"{{DynamicResource ColorBrush{num}}}", color)
     raise ResultOverride(result)
