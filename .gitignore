@@ -13,3 +13,5 @@ Private/
 output.xaml
 /Project/configs/local.*
 /.idea/*
+/local/*
+/Tools/*
