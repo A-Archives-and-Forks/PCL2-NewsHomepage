@@ -1,0 +1,7 @@
+<local:MyCard Title="${@youneedmyclaw|${title}}" CanSwap="${canswap|True}" IsSwaped="${isswaped|False}" Style="{StaticResource Card}" 
+RenderTransformOrigin="0.5,0.5">
+<local:MyCard.RenderTransform>
+    <RotateTransform Angle="${@CLAWINHAND|-3|3}" />
+</local:MyCard.RenderTransform>
+${$ChildrenPresenter}
+</local:MyCard>
