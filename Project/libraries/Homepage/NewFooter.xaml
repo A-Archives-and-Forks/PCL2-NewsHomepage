@@ -1,7 +1,4 @@
 <local:MyCard Margin="0,5,0,14">
-<local:MyCard.RenderTransform>
-    <RotateTransform Angle="${@CLAWINHAND|-3|3}" />
-</local:MyCard.RenderTransform>
 <Border BorderBrush="{DynamicResource ColorBrush2}" Margin="-0.6" CornerRadius="5" BorderThickness="0,0,0,8">
 <StackPanel>
   <Grid Margin="20,18,20,4">
