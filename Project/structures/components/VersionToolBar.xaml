@@ -1,6 +1,6 @@
 <WrapPanel Margin="-2,2" Orientation="Horizontal" VerticalAlignment="Center">
 ${@IF|${args.HideLaunchButton}||
-<local:MyIconTextButton Text="${@youneedmyclaw|启动}" ToolTip="启动 ${version-id}" EventType="启动游戏"
+<local:MyIconTextButton Text="启动" ToolTip="启动 ${version-id}" EventType="启动游戏"
     EventData="${version-id}" LogoScale="0.85" Logo="{StaticResource LaunchIcon}" />
 }
 ${@IF|${args.ShowDownloadButton}|
@@ -11,8 +11,8 @@ ${@IF|${server-jar}|${@IF|${args.HideServerJarButton}||
 <local:MyIconTextButton Style="{StaticResource ServerJarDownloadButton}"
     LogoScale="1.05" EventData="${server-jar}" Logo="{StaticResource CloudIcon}" />
 }}
-<local:MyIconTextButton Text="${@youneedmyclaw|WIKI}" ToolTip="在 Minecraft Wiki 上查看该版本" EventType="打开网页"
+<local:MyIconTextButton Text="WIKI" ToolTip="在 Minecraft Wiki 上查看该版本" EventType="打开网页"
     EventData="${wiki-link}" LogoScale="1.05" Logo="{StaticResource WikiIcon}" />
-<local:MyIconTextButton Text="${@youneedmyclaw|官网更新日志}" ToolTip="在官网查看该版本更新日志" EventType="打开网页"
+<local:MyIconTextButton Text="官网更新日志" ToolTip="在官网查看该版本更新日志" EventType="打开网页"
     EventData="${official-link}" LogoScale="0.85" Logo="{StaticResource CreeperIcon}" />
 </WrapPanel>
