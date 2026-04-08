@@ -13,7 +13,7 @@ DEVELOP_VERSION_PATTERN = re.compile(r'^(?P<major>[\d.]+)-(?P<type>[a-zA-Z]+)-?(
 "开发版本号模式"
 RELEASE_PATTERN = re.compile(r'^\d{1,2}\.\d+(\.\d+)?$')
 "正式版本号模式"
-OLD_SNAPSHOT_PATTERN = re.compile(r'^\d{2}[w|W]\d{2}[A-Fa-f]$')
+OLD_SNAPSHOT_PATTERN = re.compile(r'^(1\d)|(2[0-5])[w|W]\d{2}[A-Fa-f]$')
 "旧版本快照模式，用于 1.21.11 及以前的版本"
 # endregion
 
@@ -179,6 +179,30 @@ class MinecraftVersionManager:
             return self.get(self.__latest_release_version_id)
         else:
             return None
+    
+    @property
+    def versions(self):
+        for version_id in self.__version_ids:
+            version = self.get(version_id)
+            assert version is not None
+            yield version
+
+    def get_latest_development_versions(self) -> Optional[list[MinecraftVersion]]:
+        latest_version = self.get_latest_version()
+        if not latest_version or latest_version.type == VersionType.RELEASE:
+            return None
+        latest_development_versions = []
+        current_major_version_branches = set()
+        for version in self.versions:
+            if version.major_version in current_major_version_branches:
+                break
+            if version.type == VersionType.RELEASE:
+                break
+            if version.type == VersionType.OTHER:
+                continue
+            current_major_version_branches.add(version.major_version)
+            latest_development_versions.append(version)
+        return latest_development_versions
 
     @classmethod
     def fetch_manifest(cls) -> MinecraftManifest:
@@ -211,17 +235,24 @@ def get_server_jar_script(card, **_) -> str:
 @script('MainPageVersions')
 def main_page_versions_script(page_area, **_) -> str:
     """获取特定区域的最新 MC 版本的卡片引用"""
-    latest_version = MCVM.get_latest_version(version_type='any')
-    assert latest_version is not None, "无法获取最新版本信息"
+    latest_development_versions = MCVM.get_latest_development_versions()
+    latest_version_is_dev_version = bool(latest_development_versions)
     if page_area == 'new':
-        return f"{latest_version.id} | latest = true | s = false"
+        if latest_version_is_dev_version:
+            version_card_refereces = \
+                [f"{v.id} | latest = true | s = false" for v in latest_development_versions]
+            return ';'.join(version_card_refereces)
+        else:
+            latest_release = MCVM.get_latest_version(version_type='release')
+            assert latest_release is not None, "无法获取最新正式版信息"
+            return f"{latest_release.id} | latest = true | s = false"
     else:
-        if latest_version.type == VersionType.RELEASE:
+        if latest_version_is_dev_version:
+            latest_release = MCVM.get_latest_version(version_type='release')
+            assert latest_release is not None, "无法获取最新正式版信息"
+            return f"{latest_release.id} | latest = true"
+        else:
             return ''
-        latest_development_version = MCVM.get_latest_version(version_type='release')
-        assert latest_development_version is not None, "无法获取最新开发版本信息"
-        return f"{latest_development_version.id} | latest = true"
-
 
 @script('VersionLatestList')
 def version_latest_list_script(**_):
