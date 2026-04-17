@@ -189,7 +189,7 @@ class LatestVersionCardAPI(RESTAPI):
         card = setter.decorate(card)
         return Response(data = context.builder.template_manager.build(card))
 
-@api('/mcversion/data/<version_id>', 'v1')
+@api('/mcversion/version/<version_id>', 'v1')
 class MCVersionDataAPI(RESTAPI):
 
     EXPORT_VERSION_PROPERTIES = [
@@ -226,9 +226,7 @@ class MCVersionListAPI(RESTAPI):
         assert base_library is not None
         version_lib = base_library.get_library('versions')
         result = [c["file_name"] for c in version_lib.get_all_cards()]
-        print(result)
         return Response(data = result)
-
 
     def process(self, **_):
         if self._cache is None:

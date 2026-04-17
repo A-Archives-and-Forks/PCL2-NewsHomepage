@@ -1,5 +1,5 @@
 """
-API相关的页面
+旧 API，为兼容性考虑保留
 """
 
 import json
@@ -81,7 +81,6 @@ class LatestVersionAPI(CodeBasedPage):
         context = Context.get_current_context()
         args = get_args(context)
         ensure_ascii = is_true(args.get('ascii', False))
-        print(args)
         if not self.respond:
             self.pregen_respond()
         return json.dumps(self.respond, ensure_ascii=ensure_ascii)
