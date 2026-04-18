@@ -131,6 +131,7 @@ class LatestVersionAPI(RESTAPI):
     EXPORT_VERSION_PROPERTIES = [
         'version-id',
         'version-type',
+        'version-type-id',
         'title',
         'intro',
         'version-image-link',
@@ -138,6 +139,7 @@ class LatestVersionAPI(RESTAPI):
         'translator',
         'official-link',
         'wiki-link',
+        'wip',
     ]
 
     def __init__(self):
@@ -194,6 +196,7 @@ class MCVersionDataAPI(RESTAPI):
     EXPORT_VERSION_PROPERTIES = [
         'version-id',
         'version-type',
+        'version-type-id',
         'title',
         'intro',
         'version-image-link',
@@ -202,6 +205,7 @@ class MCVersionDataAPI(RESTAPI):
         'official-link',
         'wiki-link',
         'markdown',
+        'wip'
     ]
 
     def process(self, version_id, **_):
@@ -234,7 +238,7 @@ class MCVersionListAPI(RESTAPI):
 
 
 
-@api('/<_>')
+@api('/<path:path>')
 class DefaultNotFoundAPI(RESTAPI):
     def process(self, **_):
         raise NotFound("")
