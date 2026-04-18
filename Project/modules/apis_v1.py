@@ -32,7 +32,6 @@ def api(path, version=None, methods=None):
 @on('server.setup_routes.return')
 def set_up_routes(server, *_, **__):
     for route in rest_apis_routes:
-        print('/api' + route[0])
         server.app.add_url_rule('/api' + route[0], route[1], route[2], methods=route[3])
 
 # endregion
@@ -130,7 +129,7 @@ class StatusAPI(RESTAPI):
 class LatestVersionAPI(RESTAPI):
 
     EXPORT_VERSION_PROPERTIES = [
-        'version-id'
+        'version-id',
         'version-type',
         'title',
         'intro',
@@ -193,7 +192,7 @@ class LatestVersionCardAPI(RESTAPI):
 class MCVersionDataAPI(RESTAPI):
 
     EXPORT_VERSION_PROPERTIES = [
-        'version-id'
+        'version-id',
         'version-type',
         'title',
         'intro',
@@ -235,7 +234,7 @@ class MCVersionListAPI(RESTAPI):
 
 
 
-@api('/')
+@api('/<_>')
 class DefaultNotFoundAPI(RESTAPI):
     def process(self, **_):
         raise NotFound("")
